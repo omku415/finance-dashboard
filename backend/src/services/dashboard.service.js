@@ -1,11 +1,8 @@
 import Record from "../models/record.model.js";
 
-export const getDashboardData = async (userId) => {
-  // 🔥 Aggregate all data
+export const getDashboardData = async () => {
+  // 🔥 Aggregate all data (NO user filter)
   const stats = await Record.aggregate([
-    {
-      $match: { user: userId },
-    },
     {
       $group: {
         _id: "$type",
@@ -26,7 +23,6 @@ export const getDashboardData = async (userId) => {
 
   // 🔥 Category-wise totals
   const categoryStats = await Record.aggregate([
-    { $match: { user: userId } },
     {
       $group: {
         _id: "$category",
@@ -36,7 +32,7 @@ export const getDashboardData = async (userId) => {
   ]);
 
   // 🔥 Recent transactions
-  const recent = await Record.find({ user: userId })
+  const recent = await Record.find()
     .sort({ createdAt: -1 })
     .limit(5);
 

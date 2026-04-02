@@ -4,6 +4,8 @@ import Register from "./pages/Register"; // ✅ ADD THIS
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Records from "./pages/Records";
+import Analytics from "./pages/Analytics"
+import AdminUsers from "./pages/AdminUsers"
 
 function App() {
   return (
@@ -27,6 +29,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminUsers />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </Router>
   );

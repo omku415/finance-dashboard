@@ -1,6 +1,6 @@
 # 💰 Finance Dashboard (MERN Stack)
 
-A full-stack finance dashboard application built using the MERN stack (MongoDB, Express, React, Node.js). This project demonstrates clean backend architecture, role-based access control, and real-world data handling with a simple frontend for interaction.
+A full-stack finance dashboard application built using the MERN stack (MongoDB, Express, React, Node.js). This project demonstrates clean backend architecture, role-based access control (RBAC), and real-world data handling with a simple, functional frontend.
 
 ---
 
@@ -11,14 +11,27 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
 * User registration and login using JWT
 * Role-based access control:
 
-  * Viewer → read-only access
-  * Analyst → read + insights
-  * Admin → full access
+  * **Viewer** → read-only dashboard
+  * **Analyst** → dashboard + analytics (insights)
+  * **Admin** → records management + user management + analytics
 * Secure API access using tokens
+* Protected routes (frontend + backend)
 
 ---
 
-### 💰 Financial Records Management
+### 👥 User Management (Admin Only)
+
+* Admin can:
+
+  * Update user role (viewer / analyst / admin)
+  * Activate / deactivate users
+  * Delete users
+* Clean service-based implementation
+* Protected using role middleware
+
+---
+
+### 💰 Financial Records Management (Admin Only)
 
 * Create, read, update, and delete financial records
 * Fields:
@@ -29,6 +42,7 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
   * Date
   * Note
 * User-specific data isolation
+* Protected routes (admin only)
 
 ---
 
@@ -42,12 +56,12 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
 * Search records (category & note, case-insensitive)
 * Pagination support:
 
-  * page
-  * limit
+  * `page`
+  * `limit`
 
 ---
 
-### 📊 Dashboard Analytics
+### 📊 Dashboard (Overview)
 
 * Total income
 * Total expenses
@@ -57,10 +71,20 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
 
 ---
 
+### 📈 Analytics (Analyst + Admin)
+
+* Advanced financial insights
+* Category-wise aggregation
+* Separate analytics page (`/analytics`)
+* Uses MongoDB aggregation
+
+---
+
 ### 🛡️ Validation & Error Handling
 
 * Input validation using Joi
 * Proper error responses
+* Centralized error handling
 * Clean API structure
 
 ---
@@ -69,15 +93,19 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
 
 * Built using React (Vite)
 * Login & Register pages
+* Role-based navigation (Navbar)
 * Protected routes
-* Dashboard view:
 
-  * Summary (income, expense, balance)
-  * Category insights
-* Records management:
+#### 📄 Pages
 
-  * Add, edit, delete records
-  * Filter, search, pagination
+* **Dashboard** → Summary view (all users)
+* **Analytics** → Insights (analyst + admin)
+* **Records** → CRUD operations (admin only)
+* **Admin Users** → User management (admin only)
+
+#### ⚙️ Features
+
+* Conditional rendering based on role
 * Axios for API integration
 * Token stored in localStorage
 
@@ -105,7 +133,7 @@ A full-stack finance dashboard application built using the MERN stack (MongoDB, 
 
 ## 📁 Project Structure
 
-```id="g7c5i9"
+```
 finance-dashboard/
 ├── backend/
 │   └── src/
@@ -122,50 +150,12 @@ finance-dashboard/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Analytics.jsx
+│   │   │   ├── AdminUsers.jsx
 │   │   ├── services/
-│   │   ├── hooks/
+│   │   ├── routes/
 │   │   └── App.jsx
-```
-
----
-
-## ⚙️ Setup Instructions
-
-### 🔹 Backend Setup
-
-```id="1qpgpz"
-cd backend
-npm install
-```
-
-Create `.env`:
-
-```id="r90bo5"
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-```
-
-Run backend:
-
-```id="10l99s"
-npm run dev
-```
-
----
-
-### 🔹 Frontend Setup
-
-```id="l1pt4y"
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend runs on:
-
-```id="qxxg2i"
-http://localhost:5173
 ```
 
 ---
@@ -177,12 +167,16 @@ http://localhost:5173
 * POST `/api/auth/register`
 * POST `/api/auth/login`
 
-### 💰 Records
+---
+
+### 💰 Records (Admin Only)
 
 * GET `/api/records`
 * POST `/api/records`
 * PUT `/api/records/:id`
 * DELETE `/api/records/:id`
+
+---
 
 ### 📊 Dashboard
 
@@ -190,11 +184,25 @@ http://localhost:5173
 
 ---
 
+### 📈 Analytics (Analyst + Admin)
+
+* GET `/api/dashboard/analytics`
+
+---
+
+### 👥 Users (Admin Only)
+
+* GET `/api/users`
+* PATCH `/api/users/:id`
+* DELETE `/api/users/:id`
+
+---
+
 ## 🔑 Authentication
 
 All protected routes require:
 
-```id="b9gjxj"
+```
 Authorization: Bearer <JWT_TOKEN>
 ```
 
@@ -202,19 +210,22 @@ Authorization: Bearer <JWT_TOKEN>
 
 ## 🔍 Query Parameters (Records API)
 
-* page
-* limit
-* type
-* category
-* search
-* startDate
-* endDate
+* `page`
+* `limit`
+* `type`
+* `category`
+* `search`
+* `startDate`
+* `endDate`
 
 ---
 
 ## 🧠 Design Decisions
 
-* Clean architecture (controller → service → model)
+* Clean architecture (**controller → service → model**)
+* Role-based access control (RBAC)
 * Middleware-based authentication & authorization
 * MongoDB aggregation for analytics
+* Separation of concerns (Dashboard vs Analytics)
 * Modular and scalable structure
+

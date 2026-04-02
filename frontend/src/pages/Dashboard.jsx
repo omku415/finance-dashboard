@@ -58,7 +58,9 @@ const Dashboard = () => {
 
         {/* Recent Transactions */}
         <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-3">Recent Transactions</h2>
+          <h2 className="text-xl font-semibold mb-3">
+            Recent Transactions
+          </h2>
 
           {data.recent.map((item) => (
             <div key={item._id} className="border p-3 rounded mb-2">
@@ -66,13 +68,17 @@ const Dashboard = () => {
                 <span>{item.category}</span>
                 <span
                   className={
-                    item.type === "income" ? "text-green-600" : "text-red-600"
+                    item.type === "income"
+                      ? "text-green-600"
+                      : "text-red-600"
                   }
                 >
                   ₹ {item.amount}
                 </span>
               </div>
-              <small>{new Date(item.date).toLocaleDateString()}</small>
+              <small>
+                {new Date(item.date).toLocaleDateString()}
+              </small>
             </div>
           ))}
         </div>
