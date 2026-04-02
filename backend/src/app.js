@@ -7,7 +7,8 @@ import recordRoutes from "./routes/record.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 
 app.use(cors({
-  origin: "*"
+  origin: "https://finance-dashboard-om.netlify.app",
+  credentials: true
 }));
 app.use(express.json());
 
